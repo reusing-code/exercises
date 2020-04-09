@@ -14,9 +14,9 @@ jobs:
     - uses: actions/checkout@v2
       with:
         submodules: 'recursive'
-    - name: create docker image
+    - name: pull docker image
       run: |
-        docker build --tag clang10 docker/
+        docker pull docker.pkg.github.com/reusing-code/exercises/clang10:latest
     - name: build inside docker container
       run: |
-        docker run --rm --name exercises -v $(pwd):/src clang10 /bin/bash -c "cmake /src -G Ninja; ninja; ctest"
+        docker run --rm --name exercises -v $(pwd):/src clang10:latest /bin/bash -c "cmake /src -G Ninja; ninja; ctest"
