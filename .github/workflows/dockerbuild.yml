@@ -1,0 +1,22 @@
+name: Docker C++ CI
+
+on:
+  push:
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        submodules: 'recursive'
+    - name: create docker image
+      run: |
+        docker build --tag clang10 docker/
+    - name: build inside docker container
+      run: |
+        docker run --rm --name exercises -v $(pwd):/src clang10 /bin/bash -c "cmake /src -G Ninja; ninja; ctest"
