@@ -23,6 +23,13 @@ exercise::Graph testGrap{
     {12, {5, 4, {{2, 5}, {4, 2}, {6, 4}}}},                           // L
 };
 
+exercise::Graph specialGraph{
+    {1, {1, 1, {{2, 2}, {3, 2}}}},
+    {2, {3, 1, {{1, 2}, {3, 5}}}},
+    {3, {1, 3, {{1, 2}, {2, 5}, {4, 3}}}},
+    {4, {1, 6, {{3, 3}}}},
+};
+
 struct testCase {
   const exercise::Graph& graph;
   int start, end;
@@ -30,23 +37,32 @@ struct testCase {
 };
 
 std::vector<testCase> testCases{
-    {simpleGraph, 1, 2, 2},  //
-    {simpleGraph, 2, 1, 2},  //
-    {simpleGraph, 1, 3, 2},  //
-    {simpleGraph, 3, 1, 2},  //
-    {simpleGraph, 2, 3, 4},  //
-    {simpleGraph, 3, 2, 4},  //
-    {testGrap, 1, 2, 4},     //
-    {testGrap, 2, 1, 4},     //
-    {testGrap, 1, 6, 12},    //
-    {testGrap, 6, 1, 12},    //
-    {testGrap, 5, 8, 17},    //
-    {testGrap, 8, 5, 17},    //
+    {simpleGraph, 1, 2, 2},   //
+    {simpleGraph, 2, 1, 2},   //
+    {simpleGraph, 1, 3, 2},   //
+    {simpleGraph, 3, 1, 2},   //
+    {simpleGraph, 2, 3, 4},   //
+    {simpleGraph, 3, 2, 4},   //
+    {testGrap, 1, 2, 4},      //
+    {testGrap, 2, 1, 4},      //
+    {testGrap, 1, 6, 12},     //
+    {testGrap, 6, 1, 12},     //
+    {testGrap, 5, 8, 17},     //
+    {testGrap, 8, 5, 17},     //
+    {specialGraph, 2, 4, 7},  //
 };
 
 TEST(Graph, dijkstra) {
   for (const auto& tc : testCases) {
     auto result = exercise::dijkstra(tc.graph, tc.start, tc.end);
+    EXPECT_DOUBLE_EQ(result, tc.expectedDistance);
+  }
+}
+
+TEST(Graph, aStar) {
+  for (const auto& tc : testCases) {
+    auto result =
+        exercise::aStar(tc.graph, tc.start, tc.end, exercise::manhatten);
     EXPECT_DOUBLE_EQ(result, tc.expectedDistance);
   }
 }

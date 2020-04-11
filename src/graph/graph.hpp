@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cstdint>
+#include <functional>
 #include <memory>
 #include <unordered_map>
 #include <vector>
@@ -20,5 +21,10 @@ struct Node {
 using Graph = std::unordered_map<uint32_t, Node>;
 
 double dijkstra(const Graph& graph, uint32_t from, uint32_t to);
+
+double manhatten(const Node&, const Node&);
+
+double aStar(const Graph& graph, uint32_t from, uint32_t to,
+             std::function<double(const Node&, const Node&)>);
 
 }  // namespace exercise
