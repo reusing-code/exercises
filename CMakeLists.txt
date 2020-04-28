@@ -15,8 +15,6 @@ enable_testing()
 
 add_subdirectory(lib)
 
-include_directories(src)
-
 add_subdirectory(src)
 add_subdirectory(test)
 add_subdirectory(bench)
